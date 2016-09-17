@@ -1,0 +1,3 @@
+#!/bin/sh
+
+tail -n +2 "Hospital General Information.csv" > ~/Github/Excercise\ 1/exercise_1/loading_and_modeling/"hospitals.csv"tail -n +2 "hvbp_hcahps_05_28_2015.csv" > ~/Github/Excercise\ 1/exercise_1/loading_and_modeling/"survey_responses.csv"tail -n +2 "Measure Dates.csv" > ~/Github/Excercise\ 1/exercise_1/loading_and_modeling/"Measures.csv"tail -n +2 "Readmissions and Deaths - Hospital.csv" > ~/Github/Excercise\ 1/exercise_1/loading_and_modeling/"readmissions.csv"tail -n +2 "Timely and Effective Care - Hospital.csv" > ~/Github/Excercise\ 1/exercise_1/loading_and_modeling/"effective_care.csv"
