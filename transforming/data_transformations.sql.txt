@@ -1,0 +1,111 @@
+#Data Transformations
+
+#******************************
+#effective_care section
+
+#create table effective_care_2 that converts score to a numeric variable
+#Note the regexp_extract() function below pulls out all numeric characters from a string.
+
+create table effective_care_2 as select
+ *,
+ regexp_extract(score,'[0-9]+', 0) as score_num
+ from effective_care;
+
+#use the step above in conjunction with length(score) to limit to values that we want to keep (values less than or equal to 100 and no text)
+create table effective_care_3 as select
+ *
+ from effective_care_2
+ where score_num <= 100 and length(score) < 6;
+
+#now collapse to get mean score and count of measures by hospital.
+create table effective_care_summ as select
+ hospital_ID as hospital_ID,
+ max(hospital_name) as hospital_name,
+ max(state) as state,
+ avg(score_num) as avg_score,
+ count(distinct measure_id) as count_effective_care_measures
+ from effective_care_3
+ group by hospital_ID;
+
+
+#******************************
+#readmissions section
+
+#create readmissions_2 that converts score to a numeric variable
+create table readmissions_2 as select
+ *,
+ regexp_extract(score,'[0-9]+', 0) as score_num
+ from readmissions;
+
+#use the step above in conjunction with length(score) to limit to values that we want to keep (values less than or equal to 100 and no text).
+#Create two separate tables for readmission rates worse than national average and better than national average.
+create table readmissions_worse as select
+ *
+ from readmissions_2
+ where 
+ compared_to_national = '"Worse than the National Rate"'
+ and score_num <= 100
+ and length(score) <= 6;
+
+create table readmissions_better as select
+ *
+ from readmissions_2
+ where 
+ compared_to_national = '"Better than the National Rate"'
+ and score_num <= 100
+ and length(score) <= 6;
+	
+#count the number of measures on which each hospital was better and worse than the national average.
+create table readmissions_worse_2 as select
+ hospital_id,
+ max(hospital_name) as hospital_name,
+ max(state) as state,
+ count(measure_id) as count_worse_than_nat_readm
+ from readmissions_worse
+ group by hospital_id;
+
+create table readmissions_better_2 as select
+ hospital_id,
+ max(hospital_name) as hospital_name,
+ max(state) as state,
+ count(measure_id) as count_better_than_nat_readm
+ from readmissions_better
+ group by hospital_id;
+
+
+#******************************
+#HCAHPS summary section
+
+#Keep only rows of summary star rating
+create table HCAHPS_summary_2 as select *
+ from HCAHPS_summary
+ where hcahps_question = '"Summary star rating"';
+
+#create HCAHPS_summary_3 that converts score to a numeric variable
+#Note, confirmed that there is one observation per hospital so do not need to collapse
+create table HCAHPS_summary_summ as select
+ *,
+ regexp_extract(patient_survey_star_rating,'[0-9]+', 0) as patient_star_rating_num
+ from HCAHPS_summary_2;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

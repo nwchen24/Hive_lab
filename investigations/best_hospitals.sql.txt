@@ -1,0 +1,35 @@
+#merge effective care scores with the readmissions scores.
+create table best_hospitals_1 as select
+
+ a.hospital_id,
+ a.hospital_name,
+ a.state,
+ a.avg_score as effective_avg_score,
+ a.count_effective_care_measures,
+ b.count_worse_than_nat_readm,
+ c.count_better_than_nat_readm
+
+ from effective_care_summ as a
+ left outer join readmissions_worse_2 as b
+ on a.hospital_id = b.hospital_id
+  left outer join readmissions_better_2 as c
+  on a.hospital_id = c.hospital_id;
+
+
+#next create composite best hospital score
+create table best_hospitals_2 as select
+
+ *,
+ (effective_avg_score * count_effective_care_measures) + 3 * count_better_than_nat_readm - 5 * count_worse_than_nat_readm as composite_best_hospital_score
+
+from best_hospitals_1
+order by composite_best_hospital_score desc;
+
+#get the top ten best hospitals
+select hospital_name, composite_best_hospital_score
+from best_hospitals_2
+limit 10;
+
+
+
+
