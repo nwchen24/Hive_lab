@@ -1,0 +1,22 @@
+#get median hospital score
+select percentile(cast(composite_best_hospital_score as BIGINT), .5) from best_hospitals_2;
+
+#create flag for hospitals above median
+create table best_states_1 as select
+ *,
+ case when composite_best_hospital_score > 3085 then 1 else 0 end as flag_hosp_above_median
+
+ from best_hospitals_2;
+
+#collapse by state to get each state's proportion of hospitals above the national median score
+create table best_states_2 as select
+ state,
+ sum(flag_hosp_above_median) / count(hospital_id) as pct_state_hospitals_above_med
+
+ from best_states_1
+ group by state
+ order by pct_state_hospitals_above_med desc;
+
+#Finally, get the top ten states.
+select * from best_states_2 order by pct_state_hospitals_above_med desc
+limit 10;

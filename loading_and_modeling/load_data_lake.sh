@@ -16,7 +16,7 @@ hdfs dfs -mkdir /user/w205/Excercise_1/Hospital_datasets
 
 Hdfs dfs –mkdir /user/w205/Excercise_1/Hospital_datasets/hospitsalshdfs dfs -mkdir /user/w205/Excercise_1/Hospital_datasets/effective_carehdfs dfs -mkdir /user/w205/Excercise_1/Hospital_datasets/survey_responseshdfs dfs -mkdir /user/w205/Excercise_1/Hospital_datasets/Measureshdfs dfs -mkdir /user/w205/Excercise_1/Hospital_datasets/readmissions
 
-hdfs dfs -mkdir /user/w205/Excercis_1/Hospital_datasets/hcahps_summary
+hdfs dfs -mkdir /user/w205/Excercise_1/Hospital_datasets/hcahps_summary
 
 #load datasets into hdfs directory at user/w205/Excercise_1/Hospital_datasets/
 cd /home/w205/Excercise_1/Data_prepped_for_hdfs

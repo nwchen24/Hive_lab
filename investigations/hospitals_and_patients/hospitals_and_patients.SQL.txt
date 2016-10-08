@@ -1,0 +1,63 @@
+#Limit hospital level HCAHPS survey to communications related questions indicating a need for improvement and remove footnoted observations as these correspond to un-usable scores largely due to too few responses.
+
+create table hospitals_and_patients_1 as select *
+ from HCAHPS_summary
+ where (HCAHPS_measure_id = '"H_COMP_1_SN_P"' or HCAHPS_measure_id = '"H_COMP_2_SN_P"') and hcahps_answer_pct_fn = '""';
+
+#convert scores to numerical values
+create table hospitals_and_patients_2 as select
+ *,
+ regexp_extract(hcahps_answer_pct,'[0-9]+', 0) as hcahps_anser_pct_num
+ from hospitals_and_patients_1;
+
+#get the rank of each hospital for each communication metric. Poor scores (i.e. a large percentage of patients experiencing poor communication) get high ranks.
+
+create table hospitals_and_patients_3 as select
+ *,
+ rank() over (partition by hcahps_question order by hcahps_anser_pct_num) as rank 
+
+from hospitals_and_patients_2;
+
+#add up ranking by hospital. The highest total scores need the most improvement
+
+create table hospitals_and_patients_4 as select
+
+ hospital_id,
+ max(state) as state,
+ max(hospital_name) as hospital_name,
+ sum(rank) as need_improvement
+
+ from hospitals_and_patients_3
+ group by hospital_id
+ order by need_improvement desc;
+
+#merge in average scores by hospital
+create table hospitals_and_patients_5 as select
+
+ a.*,
+ b.composite_best_hospital_score
+
+ from hospitals_and_patients_4 as a
+  inner join best_hospitals_2 as b
+  on a.hospital_id = b.hospital_id;
+
+#Get pearson correlation coefficient between composite score and the need communication improvement score. We expect to see a negative correlation.
+select corr(need_improvement, composite_best_hospital_score) from hospitals_and_patients_5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,182 @@
+
+#Create hospital dataset.
+
+CREATE EXTERNAL TABLE hospitals (hospital_ID STRING,
+hospital_name STRING,
+Address STRING,
+City STRING,
+State STRING,
+Zip_code STRING,
+County_name STRING,
+Phone_number STRING,
+Hospital_type STRING,
+Hospital_ownership STRING,
+Emergency_services
+STRING
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+"separatorChar" = ",",
+"quoteChar" = "'",
+"escapeChar" = "\\"
+)
+STORED AS TEXTFILE
+LOCATION '/user/w205/Excercise_1/Hospital_datasets/hospitals';
+
+#Create effective_care dataset
+create external table effective_care (hospital_ID string,
+hospital_name string,
+address string,
+city string,
+state string,
+zip_code string,
+county_name string,
+phone_number string,
+condition string,
+measure_id string,
+measure_name string,
+score string,
+sample string,
+footnote string,
+measure_start_date string,
+measure_end_date string
+)
+row format serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+with serdeproperties (
+"separatorChar" = ",",
+"quoteChar" = "'",
+"escapeChar" = "\\"
+)
+stored as textfile
+location '/user/w205/Excercise_1/Hospital_datasets/effective_care';
+
+
+#Create survey_responses dataset
+create external table survey_responses (hospital_id string,
+hospital_name string,
+address string,
+city string,
+state string,
+zip_code string,
+county_name string,
+score_nurse_comm_achieve string,
+score_nurse_comm_improve string,
+score_nurse_comm_dim string,
+score_doc_comm_achieve string,
+score_doc_comm_improve string,
+score_doc_comm_dim string,
+score_staff_responsiv_achieve string,
+score_staff_responsiv_improve string,
+score_staff_responsiv_dim string,
+score_pain_manage_achieve string,
+score_pain_manage_improve string,
+score_pain_manage_dim string,
+score_med_comm_achieve string,
+score_med_comm_improve string,
+score_med_comm_dim string,
+score_clean_quiet_hosp_achieve string,
+score_clean_quiet_hosp_improve string,
+score_clean_quiet_hosp_dim string,
+score_discharge_info_achieve string,
+score_discharge_info_improve string,
+score_discharge_info_dim string,
+score_overall_hosp_rate_achieve string,
+score_overall_hosp_rate_improve string,
+score_overall_hosp_rate_dim string,
+HCAHPS_base_score string,
+HCAHPS_consistency_score string
+)
+row format serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+with serdeproperties (
+"separatorChar" = ",",
+"quoteChar" = "'",
+"escapeChar" = "\\"
+)
+stored as textfile
+location '/user/w205/Excercise_1/Hospital_datasets/survey_responses';
+
+
+#Create measures dataset
+create external table measures (measure_name string,
+measure_id string,
+measure_start_quarter string,
+measure_start_date string,
+measure_end_quarter string,
+measure_end_date string
+)
+row format serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+with serdeproperties (
+"separatorChar" = ",",
+"quoteChar" = "'",
+"escapeChar" = "\\"
+)
+stored as textfile
+location “/user/w205/Excercise_1/Hospital_datasets/measures”;
+
+
+#Create readmissions dataset
+create external table readmissions (hospital_id string,
+hospital_name string,
+address string,
+city string,
+state string,
+zip_code string,
+county_name string,
+phone_number string,
+measure_name string,
+measure_ID string,
+compared_to_national string,
+denominator string,
+score string,
+lower_estimate string,
+higher_estimate string,
+footnote string,
+measure_start_date string,
+measure_end_date string
+)
+row format serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+with serdeproperties (
+"separatorChar" = ",",
+"quoteChar" = "'",
+"escapeChar" = "\\"
+)
+stored as textfile
+location "/user/w205/Excercise_1/Hospital_datasets/readmissions";
+
+#Load HCAHPS summary dataset
+create external table hcahps_summary (hospital_id string,
+hospital_name string,
+address string,
+city string,
+state string,
+zip_code string,
+county_name string,
+phone_number string,
+HCAHPS_measure_id string,
+hcahps_question string,
+hcahps_answer_descripsion string,
+patient_survey_star_rating string,
+patient_survey_star_rating_fn string,
+hcahps_answer_pct string,
+hcahps_answer_pct_fn string,
+number_completed_surveys string,
+number_completed_surveys_fn string,
+survey_response_rate_pct string,
+survey_response_rate_pct_fn string,
+measure_start_date string,
+measure_end_date string
+
+)
+row format serde 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+with serdeproperties (
+"separatorChar" = ",",
+"quoteChar" = "'",
+"escapeChar" = "\\"
+)
+stored as textfile
+location "/user/w205/Excercise_1/Hospital_datasets/hcahps_summary";
+
+
+
+
+
