@@ -1,4 +1,4 @@
-#merge effective care scores with the readmissions scores.
+--merge effective care scores with the readmissions scores.
 create table best_hospitals_1 as select
 
  a.hospital_id,
@@ -16,7 +16,7 @@ create table best_hospitals_1 as select
   on a.hospital_id = c.hospital_id;
 
 
-#next create composite best hospital score
+--next create composite best hospital score
 create table best_hospitals_2 as select
 
  *,
@@ -25,7 +25,7 @@ create table best_hospitals_2 as select
 from best_hospitals_1
 order by composite_best_hospital_score desc;
 
-#get the top ten best hospitals
+--get the top ten best hospitals
 select hospital_name, composite_best_hospital_score
 from best_hospitals_2
 limit 10;

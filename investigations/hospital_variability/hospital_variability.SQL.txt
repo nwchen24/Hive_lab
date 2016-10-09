@@ -1,4 +1,4 @@
-#Get the min and max scores from effective_care_3
+--Get the min and max scores from effective_care_3
 create table hospital_variability_1 as select
 
  measure_id,
@@ -10,5 +10,5 @@ create table hospital_variability_1 as select
  from effective_care_3
  group by measure_id order by measure_variability desc;
 
-#get the ten measures with the highest variability
+--get the ten measures with the highest variability
 select measure_name from hospital_variability_1 limit 10;

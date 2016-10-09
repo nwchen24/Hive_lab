@@ -1,5 +1,5 @@
 
-#Create hospital dataset.
+--Create hospital dataset.
 
 CREATE EXTERNAL TABLE hospitals (hospital_ID STRING,
 hospital_name STRING,
@@ -23,7 +23,7 @@ WITH SERDEPROPERTIES (
 STORED AS TEXTFILE
 LOCATION '/user/w205/Excercise_1/Hospital_datasets/hospitals';
 
-#Create effective_care dataset
+--Create effective_care dataset
 create external table effective_care (hospital_ID string,
 hospital_name string,
 address string,
@@ -51,7 +51,7 @@ stored as textfile
 location '/user/w205/Excercise_1/Hospital_datasets/effective_care';
 
 
-#Create survey_responses dataset
+--Create survey_responses dataset
 create external table survey_responses (hospital_id string,
 hospital_name string,
 address string,
@@ -96,7 +96,7 @@ stored as textfile
 location '/user/w205/Excercise_1/Hospital_datasets/survey_responses';
 
 
-#Create measures dataset
+--Create measures dataset
 create external table measures (measure_name string,
 measure_id string,
 measure_start_quarter string,
@@ -114,7 +114,7 @@ stored as textfile
 location “/user/w205/Excercise_1/Hospital_datasets/measures”;
 
 
-#Create readmissions dataset
+--Create readmissions dataset
 create external table readmissions (hospital_id string,
 hospital_name string,
 address string,
@@ -143,7 +143,7 @@ with serdeproperties (
 stored as textfile
 location "/user/w205/Excercise_1/Hospital_datasets/readmissions";
 
-#Load HCAHPS summary dataset
+--Load HCAHPS summary dataset
 create external table hcahps_summary (hospital_id string,
 hospital_name string,
 address string,
